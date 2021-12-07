@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+    function load(){
+        // http://localhost:8090/getcodes
+        $.ajax({
+            method: 'GET',
+            url: 'getcodes',
+            cache: false,
+            complete: function(data){
+                mydata = JSON.parse(data.responseText);
+                $.each(mydata, function(i, val) {$("#select").append("<option value='"+val+"'>"+val+"</option>");});
+            },
+            error: function (data) {
+                console.log(data);
+            },
+        });
+
+    }
+    function myFunction(val){
+        if (val!="0") {
+            console.log(val);
+
+           // loadResultGif();
+            $.ajax({
+                method: 'GET',
+                url: 'getimage/'+val,
+                cache: false,
+                complete: function(data){
+                    mydata = JSON.parse(data.responseText);
+                    console.log(mydata);
+                    $("#testimg").attr("src",mydata.data.images.original.url);
+                    $("#testinput").val(mydata.word);
+                },
+                error: function (data) {
+                    console.log(data);
+                },
+            });
+
+
+
+        }
+    }
+    function loadResultGif() {
+        let code = $("#select").val(); //получает выбранный option из select`а.
+        $.ajax({
+            url: 'http://localhost:8083/gg/getgif/' + code,
+            method: 'GET',
+            dataType: "json",
+            complete: function (data) {
+                let content = JSON.parse(data.responseText);
+                let img = document.createElement("img");
+                let gifName = document.createElement("p");
+                gifName.textContent = content.data.title;
+                let gifKey = document.createElement("p");
+                gifKey.textContent = content.compareResult;
+                img.src = content.data.images.original.url;
+                let out = document.querySelector("#subimage");
+                out.innerHTML = '';
+                out.insertAdjacentElement("afterbegin", img);
+                out.insertAdjacentElement("afterbegin", gifName);
+                out.insertAdjacentElement("afterbegin", gifKey);
+            }
+        })
+    }
+$(load());
+</script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Currencies</title>
+</head>
+<body>
+<div id="subdiv" style="text-align: center">
+    <select id="select" size="1" style="width:150px" onChange="myFunction(this.options[this.selectedIndex].value)">
+        <option value='0'>Выберите валюту</option>
+    </select>
+    <br>    <br>
+    <input type="text" id="testinput" val=""><br><br>
+
+</div>
+<div id="subimage" style="text-align: center">
+
+</div>
+<div style="text-align: center">
+<br><br>
+
+<img id="testimg"><br><br>
+
+</div>
+</body>
+</html>
+
