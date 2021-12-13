@@ -1,7 +1,6 @@
 package ru.mixart.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.mixart.demo.client.RatesClient;
@@ -16,6 +15,7 @@ import java.util.List;
 public class RatesServiceImpl implements RatesService {
     private Rates currentRates;
     private Rates historicalRates;
+    private SimpleDateFormat dateFormat;
     @Value("${rates.appid}")
     private String appId;
     @Value("${rates.base}")
@@ -26,6 +26,7 @@ public class RatesServiceImpl implements RatesService {
     public RatesServiceImpl(
             RatesClient ratesClient) {
         this.ratesClient = ratesClient;
+
     }
 
     @Override
@@ -51,7 +52,7 @@ public class RatesServiceImpl implements RatesService {
         Double rate1 = this.currentRates.getRates().get(el);
         Double rate2 = this.historicalRates.getRates().get(el);
 
-       //System.out.println(rate1+" "+rate2);
+        //System.out.println(rate1+" "+rate2);
         //System.out.println(Double.compare(rate1, rate2));
 
 

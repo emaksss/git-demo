@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
+
 //https://api.giphy.com/v1/gifs/random?api_key=pjbfiw64WQEcu8b2Mm8fbeEDxWwSO3t0&tag=rich&rating=g
 @FeignClient(name = "imageClient", url = "${image.url}")
 public interface FeignImageClient extends ImageClient{

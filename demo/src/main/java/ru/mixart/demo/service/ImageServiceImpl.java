@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.mixart.demo.client.ImageClient;
 
 import java.util.Map;
+
 @Service
 public class ImageServiceImpl implements ImageService {
     private final ImageClient imageClient;
@@ -27,4 +28,5 @@ public class ImageServiceImpl implements ImageService {
         result.getBody().put("word", val);
         return result;
     }
+
 }
